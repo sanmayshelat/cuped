@@ -65,43 +65,49 @@ where:
 * $\Sigma$: covariance matrix of $B$
 
 For any continuous function, $h(B)$, first order Taylor series implies:
-$$
+
+```math
 h(B) \approx h(\beta) + \nabla{h(\beta)}^{T}(B-\beta)
-$$
+```
+
 where:
 * $\nabla h(B)$: gradient; i.e., vector of partial differentiation of $h(B)$ by each element of $B$
 
 The variance of both sides should also be equal:
 
-$$
+```math
 var(h(B)) = var(\nabla{h(\beta)}^{T}B)\\
-$$
+```
+
 $\because$ all other terms on the _rhs_ are constants. Then by variance property:
-$$
+
+```math
 \begin{align*}
 var(h(B)) &= \nabla{h(\beta)}^{T}var(B)\nabla{h(\beta)}\\
 &= \nabla{h(\beta)}^{T} \Sigma \nabla{h(\beta)}\\
 \end{align*}
-$$
+```
 
 ---
 
 
 ### 1.2.1. Variance property
 Variance when multiplying scalar with random variable.
-$$
+
+```math
 \begin{align*}
 var(\sum_{i}{a_{i}X_{i}}) &\\
 &= \sum_{i,j}{a_{i}a_{j}cov(x_{i},x_{j})}\\
 &= \sum_{i}{a_{i}^{2}var(x_{i})} + \sum_{i,j, i \neq j}{a_{i}a_{j}cov(x_{i},x_{j})}\\
 &= \sum_{i}{a_{i}^{2}var(x_{i})} + 2\sum_{i<j<N}{a_{i}a_{j}cov(x_{i},x_{j})}\\
 \end{align*}
-$$
+```
 
 Equivalently, in matrix notation:
-$$
+
+```math
 var(a^{T}X) = a^{T} \Sigma a
-$$
+```
 
 ___
 ___
@@ -120,18 +126,19 @@ Averages of randomization unit level quantities (which are $\therefore$ i.i.d):
 * $\bar{Y} = \frac{\sum_{i}{Y_{i+}}}{n}$
 * $\bar{N} = \frac{\sum_{i}{N_{i+}}}{n}$
 
-Let 
-$$
+Let
+
+```math
 \begin{align*}
 h(B)=h(\bar{Y}, \bar{N}) &= \frac{\bar{Y}}{\bar{N}} \\
 \therefore var(h(B)) &= \nabla{h(\beta)}^{T} \Sigma \nabla{h(\beta)}\\
 
 \end{align*}
-$$
+```
 
 where
 
-$$
+```math
 \begin{align*}
 \nabla{h(\beta)} &= \left[ 
     \frac{\partial{\frac{\bar{Y}}{\bar{N}}}}{\partial{\bar{Y}}},
@@ -143,10 +150,11 @@ $$
     \right]\\
 
 \end{align*}
-$$
+```
 
 This way calculate $h(B)$ and $var(h(B))$ for the treatment and control sets. The difference of the former gives the mean effect (_delta_) and the latter can be combined to get the pooled variance. The delta and pooled variance can be combined to calculate  the z-statistic.
 ___
+---
 
 
 
@@ -156,17 +164,19 @@ ___
 Control variates is a variance reduction method commonly applied in Monte Carlo procedures to reduce the error of estimates. Let's say we are interested in estimating $\mu_{Y}=\mathbb{E}(\bar{Y})$. A typical estimator would be the average of sample observations, $\bar{Y} = \frac{\sum_{i}{Y_{i+}}}{n}$.
 
 Let $\bar{X}$ be some other metric where $\mathbb{E}(\bar{X})$ is known. Then $Y_{cv}=\bar{Y} + \theta(\bar{X} - \mathbb{E}(\bar{X}))$, where $\theta$ is a fixed value, is also an unbiased estimator of $\mu_{Y}$. To prove this, take the expectation on both sides:
-$$
+
+```math
 \begin{align*}
 \mathbb{E}(Y_{cv}) &= \mathbb{E}(\bar{Y} + \theta(\bar{X} - \mathbb{E}(\bar{X})))\\
 &= \mathbb{E}(\bar{Y}) + \theta\mathbb{E}(\bar{X}) - \theta\mathbb{E}(\bar{X})\\
 &= \mathbb{E}(\bar{Y})
 
 \end{align*}
-$$
+```
 
 The variance of this estimator is:
-$$
+
+```math
 \begin{align*}
 var(Y_{cv}) &= var(\bar{Y} + \theta(\bar{X} - \mathbb{E}(X)))\\
 &= var(\bar{Y} + \theta\bar{X})\\
@@ -174,11 +184,11 @@ var(Y_{cv}) &= var(\bar{Y} + \theta(\bar{X} - \mathbb{E}(X)))\\
 &= var(\bar{Y}) + \theta^{2} var(\bar{X}) + 2\theta cov(\bar{Y},\bar{X})
 
 \end{align*}
-$$
+```
 
 We would like to minimize the variance of any estimator. As $\theta$ is a free parameter we can optimize to minimize the variance:
 
-$$
+```math
 \begin{align*}
 \frac{\mathrm{d}[var(Y_{cv})]}{\mathrm{d}\theta} &= 0\\
 \frac{\mathrm{d}\left[var(\bar{Y}) + \theta^{2} var(\bar{X}) + 2\theta cov(\bar{Y},\bar{X})\right]}{\mathrm{d}\theta} &= 0\\
@@ -186,10 +196,11 @@ $$
 \theta &= - \frac{cov(\bar{Y},\bar{X})}{var(\bar{X})}\\
 
 \end{align*}
-$$
+```
 
 Replacing theta in the variance formula with this optimal value:
-$$
+
+```math
 \begin{align*}
 var(Y_{cv}) &= var(\bar{Y}) + 
 \frac{cov(\bar{Y},\bar{X})^{2}}{var(\bar{X})} - 
@@ -203,7 +214,9 @@ var(Y_{cv}) &= var(\bar{Y}) +
 &= var(\bar{Y}) (1-\rho_{\bar{Y},\bar{X}}^{2})
 
 \end{align*}
-$$
+```
+---
+
 
 ## 3.2. Points to note
 * We don't know the terms required to calculate $\theta$ exactly.
@@ -211,22 +224,22 @@ $$
 * We don't know $\mathbb{E}(X)$.
     * If we just use the sample mean to estimate it then we just get the old metric back (i.e., sample mean of $\bar{Y}$).
     * We could use some other data than $X_1, X_2, \dots$ to estimate $\mathbb{E}(\bar{X})$ with some variance.
-    * However, for A/B tests this is not a problem if $\bar{X}$ is some pre-experimental data. This is because, we are typically interested in estimating $\mathbb{E}(\bar{Y}_{t}) - \mathbb{E}(\bar{Y}_{c})$ (referring to the metric in treatment and control).
-    * With the new estimator, that is:
-    $$
-    \begin{align*}
-    \mathbb{E}(\bar{Y}_{cv,t}) - \mathbb{E}(\bar{Y}_{cv,c}) &= 
-    (\mathbb{E}(\bar{Y}_{t}) + \theta(\bar{X}_{t} - \mathbb{E}(\bar{X}_{t}))) - 
-    (\mathbb{E}(\bar{Y}_{c}) + \theta(\bar{X}_{c} - \mathbb{E}(\bar{X}_{c})))\\
+    * However, for A/B tests this is not a problem if $\bar{X}$ is some pre-experimental data. This is because, we are typically interested in estimating $\mathbb{E}(\bar{Y_t}) - \mathbb{E}(\bar{Y_c})$ (referring to the metric in treatment and control).
+    * With the new estimator that becomes as shown below; and $\mathbb{E}(\bar{X_c}) - \mathbb{E}(\bar{X_t}) = 0$ because using pre-experimental data, there should be no treatment effect and random assignment would assure that there are no differences.
+    
+```math
+\begin{align*}
+\mathbb{E}(\bar{Y}_{cv,t}) - \mathbb{E}(\bar{Y}_{cv,c}) &= 
+(\mathbb{E}(\bar{Y}_{t}) + \theta(\bar{X}_{t} - \mathbb{E}(\bar{X}_{t}))) - 
+(\mathbb{E}(\bar{Y}_{c}) + \theta(\bar{X}_{c} - \mathbb{E}(\bar{X}_{c})))\\
 
-    &= (\mathbb{E}(\bar{Y}_{t}) + \theta\bar{X}_{t}) - 
-    (\mathbb{E}(\bar{Y}_{c}) + \theta\bar{X}_{c}) +
-    (\mathbb{E}(\bar{X}_{c}) - \mathbb{E}(\bar{X}_{t}))
+&= (\mathbb{E}(\bar{Y}_{t}) + \theta\bar{X}_{t}) - 
+(\mathbb{E}(\bar{Y}_{c}) + \theta\bar{X}_{c}) +
+(\mathbb{E}(\bar{X}_{c}) - \mathbb{E}(\bar{X}_{t}))
 
-    \end{align*}
-    $$
+\end{align*}
+```
 
-    * But $\mathbb{E}(\bar{X}_{c}) - \mathbb{E}(\bar{X}_{t}) = 0$ because using pre-experimental data, there should be no treatment effect and random assignment would assure that there are no differences.
 * Which X to use?
     * Typically the same metric but pre-experiment will give the most variance reduction.
 
@@ -250,7 +263,8 @@ To apply CUPED:
     * $covar(s(B), r(B)) = \nabla{s(\beta)}^{T} \Sigma \nabla{r(\beta)}$
 
 * The gradients calculations are thus:
-$$
+
+```math
 \begin{align*}
 \nabla{s(\beta)} &= \left[ 
     \frac{\partial{\frac{\bar{Y}}{\bar{N}}}}{\partial{\bar{Y}}},
@@ -279,11 +293,12 @@ $$
     \right]\\
 
 \end{align*}
-$$
+```
 
 * $\theta = -\frac{covar(s(B), r(B))}{var(r(B))}$
 * Replacing theta in the variance formula:
-$$
+
+```math
 \begin{align*}
 var \left( \left[\frac{\bar{Y}}{\bar{N}}\right]_{cv} \right) &= var \left( \frac{\bar{Y}}{\bar{N}} \right) + 
 \frac{cov\left( \frac{\bar{Y}}{\bar{N}}, \frac{\bar{X}}{\bar{M}} \right)^{2}}{var \left( \frac{\bar{X}}{\bar{M}} \right)} - 
@@ -292,7 +307,7 @@ var \left( \left[\frac{\bar{Y}}{\bar{N}}\right]_{cv} \right) &= var \left( \frac
 &= var \left( \frac{\bar{Y}}{\bar{N}} \right) \left(1-\rho_{\frac{\bar{Y}}{\bar{N}},\frac{\bar{X}}{\bar{M}}}^{2} \right)
 
 \end{align*}
-$$
+```
 
 
 ___
@@ -312,7 +327,8 @@ Let $i$ be the independent randomization unit. Let there be $K$ clusters.
 Then in each unit, $Y_{j}$ are independent such that, $\mathbb{E}(Y_{j})=\mu_i$ and $var(Y_{j})=\sigma_{i}^2$. Thus, the between-cluster variance, $\tau^2=var(\mu_i)$. Further assume that $N_i=m, \sigma_{i}^2=\sigma^2; \forall{i}$.
 
 Based on the [Variance property](#121-variance-property) noted above, 
-$$
+
+```math
 \begin{align*}
 var\left(\sum_{i}{a_{i}X_{i}}\right) &= \sum_{i}{a_{i}^{2}var(x_{i})} + 2\sum_{i<j<N}{a_{i}a_{j}cov(x_{i},x_{j})}\\
 
@@ -342,11 +358,13 @@ var\left(\frac{\sum_{i=1}^{K}{\mu_i}}{K}\right) &=\\
 \left[ 
     1 + (K-1)\rho
 \right]\\
+\end{align*}
+```
 
 
 
-
-
+```math
+\begin{align*}
 var\left(\frac{\sum_{i=1}^{K}\sum_{j=1}^{m}{Y_{ij}}}{Km}\right) &=\\
 
 &= \frac{1}{(Km)^2}    var\left(\sum_{i=1}^{K}\sum_{j=1}^{m}{Y_{ij}}\right) \\
@@ -379,13 +397,13 @@ var\left(\frac{\sum_{i=1}^{K}\sum_{j=1}^{m}{Y_{ij}}}{Km}\right) &=\\
     1 + (K-1)\rho
 \right]\\
 \end{align*}
-$$
+```
 
 
 
 the coefficient of intra-cluster correlation, $\rho=\frac{\tau^2}{\tau^2 + \sigma^2}$, where $\tau^2=var(\mu_i)$ (i.e., the between ) and $\sigma^2=var(Y_{ij})$. 
 
-$$
+```math
 var_c = (Y_sigma2/(N_bar**2) - 2*YN_cov*Y_bar/(N_bar**3) + (Y_bar**2)*N_sigma2/(N_bar**4))
-$$
+```
 
