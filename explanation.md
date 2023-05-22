@@ -17,7 +17,7 @@
 ## 1.1. Univariate
 From the central limit theorem, the random variables such as the sample average are asymptotically normal. Thus if $X_{n}$ is a sequence of averages where $n\to\infty$:
 
-$$
+```math
 \begin{align*}
 X_{n}   &\sim {\sf N}(\mu, \frac{\sigma^{2}}{n})\\
 X_{n}-\mu   &\sim {\sf N}(0, \frac{\sigma^{2}}{n})\\
@@ -25,29 +25,29 @@ X_{n}-\mu   &\sim \frac{\sigma}{\sqrt{n}}{\sf N}(0, 1)\\
 \frac{\sqrt{n}(X_{n}-\mu)}{\sigma}   &\sim {\sf N}(0, 1)\\
 
 \end{align*}
-$$
+```
 
 
 The Delta method then gives that for any continuous transformation $g(x)$:
 
-$$
+```math
 \begin{align*}
 \frac{\sqrt{n}(g(X_{n})-g(\mu))}{|g'(\mu)|\sigma}   &\sim {\sf N}(0, 1)\\
 g(X_{n})  &\sim {\sf N} \left( g(\mu), \frac{g'(\mu)^{2}\sigma^{2}}{n} \right) \\
 
 \end{align*}
-$$
+```
 
 
 The above applies because from the Taylor series:
 
-$$
+```math
 \begin{align*}
 g(X_{n}) &= g(\mu) + \frac{g'(\mu)}{1!}(X_{n}-\mu) + \frac{g''(\mu)}{2!}(X_{n}-\mu)^{2} + \dots\\
 \frac{g(X_{n})-g(\mu)}{g'(\mu)} &\approx (X_{n}-\mu)\\
 \frac{\sqrt{n}(g(X_{n})-g(\mu))}{g'(\mu)\sigma} &\approx \frac{\sqrt{n}}{\sigma}(X_{n}-\mu) \sim {\sf N}(0, 1)\\
 \end{align*}
-$$
+```
 
 ---
 
@@ -55,9 +55,10 @@ $$
 
 ## 1.2. Multivariate
 Similarly, for the multivariate case:
-$$
+
+```math
 \frac{\sqrt{n}(B-\beta)}{\Sigma} \sim {\sf N}(0,1)
-$$
+```
 where:
 * $B$: vector of $k$ random variables
 * $\beta$: vector of $k$ constants
