@@ -332,78 +332,39 @@ Based on the [Variance property](#121-variance-property) noted above,
 \begin{align*}
 var\left(\sum_{i}{a_{i}X_{i}}\right) &= \sum_{i}{a_{i}^{2}var(x_{i})} + 2\sum_{i<j<N}{a_{i}a_{j}cov(x_{i},x_{j})}\\
 
-var\left(\frac{\sum_{i=1}^{K}{\mu_i}}{K}\right) &=\\
+var\left(\frac{\sum_{j=1}^{N}{Y_{ij}}}{N}\right) &=\\
 
-&= \frac{1}{K^2}    var\left(\sum_{i=1}^{K}{\mu_i}\right) \\
-&= \frac{1}{K^2}   
+&= \frac{1}{N^2}    var\left(\sum_{j=1}^{N}{Y_{ij}}\right) \\
+&= \frac{1}{N^2}   
 \left[ 
-    \sum_{i=1}^{K}{var({\mu_i})} + 
-    2\sum_{i<j<\frac{K}{2}}{cov(\mu_{i},\mu_{j})}
+    \sum_{j=1}^{N}{var(Y_{ij})} + 
+    2\sum_{p<q<\frac{N}{2}}{cov(Y_{ip},Y_{iq})}
 \right]\\
-&= \frac{1}{K^2}   
+&= \frac{1}{N^2}   
 \left[ 
-    \sum_{i=1}^{K}{var({\mu_i})} + 
-    \sum_{p=1}^{K}\sum_{q=1,q\neq p}^{K}{cov(\mu_{p},\mu_{q})}
+    \sum_{j=1}^{N}{(\sigma_b + \sigma_w)} + 
+    \sum_{p=1}^{N}\sum_{q=1,q\neq p}^{N}{\sigma_b}
 \right]\\
-&= \frac{1}{K^2}   
+&= \frac{1}{N}   
 \left[ 
-    K \tau^2 + 
-    K(K-1)  corr(\mu_{p},\mu_{q})   \sqrt{var(\mu_p) var(\mu_q)}
+    (\sigma_b + \sigma_w) + 
+    (N-1)\sigma_b
 \right]\\
-&= \frac{\tau^2}{K}   
+&= \frac{(\sigma_b + \sigma_w)}{N}   
 \left[ 
-    1 + (K-1)   corr(\mu_{p},\mu_{q})
+    1 + (N-1)\frac{\sigma_b}{(\sigma_b + \sigma_w)}
 \right]\\
-&= \frac{\tau^2}{K}   
+&= \frac{(\sigma_b + \sigma_w)}{N}   
 \left[ 
-    1 + (K-1)\rho
+    1 + (N-1)\rho
+\right]\\
+
+var\left(\frac{\sum_{i=1}^{K}\sum_{j=1}^{N}{Y_{ij}}}{KN}\right) 
+
+&= var\left(\frac{\sum_{j=1}^{N}{Y_{ij}}}{N}\right)/K\\
+&= \frac{(\sigma_b + \sigma_w)}{KN}   
+\left[ 
+    1 + (N-1)\rho
 \right]\\
 \end{align*}
 ```
-
-
-
-```math
-\begin{align*}
-var\left(\frac{\sum_{i=1}^{K}\sum_{j=1}^{m}{Y_{ij}}}{Km}\right) &=\\
-
-&= \frac{1}{(Km)^2}    var\left(\sum_{i=1}^{K}\sum_{j=1}^{m}{Y_{ij}}\right) \\
-&= \frac{1}{(Km)^2} 
-\left[ 
-    \sum_{i=1}^{K} var\left(\sum_{j=1}^{m}{Y_{ij}}\right) + 
-    2 \sum_{p<q<\frac{K}{2}}^{K} cov\left(\sum_{p=1}^{m}{Y_{pj}}, \sum_{q=1}^{m}{Y_{qj}} \right)
-\right]\\
-&= \frac{1}{(Km)^2} 
-\left[ 
-    (K m \sigma^2 + 0) +
-    2 \sum_{p<q<\frac{K}{2}}^{K} cov\left(\sum_{p=1}^{m}{Y_{pj}}, \sum_{q=1}^{m}{Y_{qj}} \right)
-\right]\\
-&= \frac{1}{(Km)^2}   
-\left[ 
-    K m \sigma^2 + 
-    \sum_{p=1}^{K}\sum_{q=1,q\neq p}^{K} cov\left(\sum_{p=1}^{m}{Y_{pj}}, \sum_{q=1}^{m}{Y_{qj}} \right)
-\right]\\
-&= \frac{1}{K^2}   
-\left[ 
-    K \tau^2 + 
-    K(K-1)  corr(\mu_{p},\mu_{q})   \sqrt{var(\mu_p) var(\mu_q)}
-\right]\\
-&= \frac{\tau^2}{K}   
-\left[ 
-    1 + (K-1)   corr(\mu_{p},\mu_{q})
-\right]\\
-&= \frac{\tau^2}{K}   
-\left[ 
-    1 + (K-1)\rho
-\right]\\
-\end{align*}
-```
-
-
-
-the coefficient of intra-cluster correlation, $\rho=\frac{\tau^2}{\tau^2 + \sigma^2}$, where $\tau^2=var(\mu_i)$ (i.e., the between ) and $\sigma^2=var(Y_{ij})$. 
-
-```math
-var_c = (Y_sigma2/(N_bar**2) - 2*YN_cov*Y_bar/(N_bar**3) + (Y_bar**2)*N_sigma2/(N_bar**4))
-```
-
