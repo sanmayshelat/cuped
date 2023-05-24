@@ -99,7 +99,7 @@ Variance when multiplying scalar with random variable.
 var(\sum_{i}{a_{i}X_{i}}) &\\
 &= \sum_{i,j}{a_{i}a_{j}cov(x_{i},x_{j})}\\
 &= \sum_{i}{a_{i}^{2}var(x_{i})} + \sum_{i,j, i \neq j}{a_{i}a_{j}cov(x_{i},x_{j})}\\
-&= \sum_{i}{a_{i}^{2}var(x_{i})} + 2\sum_{i<j<N}{a_{i}a_{j}cov(x_{i},x_{j})}\\
+&= \sum_{i}{a_{i}^{2}var(x_{i})} + 2\sum_{i\lt{j}\lt{N}}{a_{i}a_{j}cov(x_{i},x_{j})}\\
 \end{align*}
 ```
 
@@ -330,7 +330,7 @@ Based on the [Variance property](#121-variance-property) noted above,
 
 ```math
 \begin{align*}
-var\left(\sum_{i}{a_{i}X_{i}}\right) &= \sum_{i}{a_{i}^{2}var(x_{i})} + 2\sum_{i<j<N}{a_{i}a_{j}cov(x_{i},x_{j})}\\
+var\left(\sum_{i}{a_{i}X_{i}}\right) &= \sum_{i}{a_{i}^{2}var(x_{i})} + 2\sum_{i\lt{j}\lt{N}}{a_{i}a_{j}cov(x_{i},x_{j})}\\
 
 var\left(\frac{\sum_{j=1}^{N}{Y_{ij}}}{N}\right) &=\\
 
@@ -338,7 +338,7 @@ var\left(\frac{\sum_{j=1}^{N}{Y_{ij}}}{N}\right) &=\\
 &= \frac{1}{N^2}   
 \left[ 
     \sum_{j=1}^{N}{var(Y_{ij})} + 
-    2\sum_{p<q<\frac{N}{2}}{cov(Y_{ip},Y_{iq})}
+    2\sum_{p\lt{q}\lt{\frac{N}{2}}}{cov(Y_{ip},Y_{iq})}
 \right]\\
 &= \frac{1}{N^2}   
 \left[ 
