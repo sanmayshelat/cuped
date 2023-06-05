@@ -27,3 +27,4 @@ Sources are in no particular order.
 
 ## Ratio types
 * Discussion of ratio-of-averages and average-of-ratios: _Dealing With Ratio Metrics in A/B Testing at the Presence of Intra-User Correlation and Segments_
+* https://vkteam.medium.com/practitioners-guide-to-statistical-tests-ed2d580ef04f#1e3b
