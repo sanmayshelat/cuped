@@ -23,12 +23,15 @@ class ratio_data_dgp():
     K is the number of experimental units (clusters; e.g., no. of drivers). 
     The denominator is a Poisson process (e.g., no. of offers), numerator is
     a series of bernoulli trials with a normally distributed probability of
-    success (clipped at 0 and 1).
+    success (clipped at 0 and 1). Multipliers for the Poisson process parameters
+    indicate length of data (e.g., weeks).
 
     Args:
         K: number of clusters
         p: probability of being in a group with similar behaviour
         poisson_lams: denominator is a Poisson process (one lambda for each group)
+        poisson_multi_pre: basically indicates the length of pre-exp data
+        poisson_multi_exp: basically indicates the length of exp data
         mean_prob_success: mean probability of success
         std_prob_success: std of probability of success
 
