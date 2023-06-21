@@ -24,7 +24,9 @@ class ratio_data_dgp():
     The denominator is a Poisson process (e.g., no. of offers), numerator is
     a series of bernoulli trials with a normally distributed probability of
     success (clipped at 0 and 1). Multipliers for the Poisson process parameters
-    indicate length of data (e.g., weeks).
+    indicate length of data (e.g., weeks). A separate probability of missing
+    out is simulated to get the probability of having less data (e.g., missing a 
+    week).
 
     Args:
         K: number of clusters
@@ -32,6 +34,7 @@ class ratio_data_dgp():
         poisson_lams: denominator is a Poisson process (one lambda for each group)
         poisson_multi_pre: basically indicates the length of pre-exp data
         poisson_multi_exp: basically indicates the length of exp data
+        prob_missing: constant probability of missing out from a length of data
         mean_prob_success: mean probability of success
         std_prob_success: std of probability of success
 
@@ -50,6 +53,7 @@ class ratio_data_dgp():
             poisson_multi_exp: float=1,
             mean_prob_success:np.array = np.array([0.3, 0.5, 0.8]),
             std_prob_success:np.array = np.array([0.05, 0.1, 0.05]),
+            prob_missing: float=0,
             seed:int = 42
     ):
         if any([len(p)!=len(i) for i in (poisson_lams, mean_prob_success, std_prob_success)]):
@@ -60,6 +64,7 @@ class ratio_data_dgp():
         self.poisson_lams = poisson_lams
         self.poisson_multi_pre = poisson_multi_pre
         self.poisson_multi_exp = poisson_multi_exp
+        self.prob_missing = prob_missing
         self.mean_prob_success = mean_prob_success
         self.std_prob_success = std_prob_success
         self.seed = seed
@@ -69,6 +74,10 @@ class ratio_data_dgp():
         # groups of clusters with similar behaviour
         self.M = self.rng.multinomial(self.K, self.p)
         self.driver_types = np.concatenate([np.ones(j)*i for i,j in enumerate(self.M)]).astype(int)
+        self.poisson_lam_per_driver = np.concatenate([
+            np.tile(self.poisson_lams[i], self.M[i]) 
+            for i in range(len(self.p))
+        ])
 
         # prob success
         prob_success = np.concatenate(
@@ -98,12 +107,13 @@ class ratio_data_dgp():
         '''Data generating process
         '''
         # denominator
-        N = np.concatenate(
-            [
-                self.rng.poisson(self.poisson_lams[i]*self.poisson_multi_pre, self.M[i]) 
-                for i in range(len(self.p))
-            ]
+        self.length_pre = self.rng.binomial(
+            n=self.poisson_multi_pre, 
+            p=1-self.prob_missing, 
+            size=self.K
         )
+        self.final_poisson_pre = self.poisson_lam_per_driver * self.length_pre
+        N = np.array([self.rng.poisson(i, 1)[0] for i in self.final_poisson_pre])
 
         # numerator
         prob_success = self.prob_success
@@ -112,12 +122,13 @@ class ratio_data_dgp():
         # data with experiment
         if experiment_impact:
             # denominator
-            N_exp = np.concatenate(
-                [
-                    self.rng.poisson(self.poisson_lams[i]*self.poisson_multi_exp, self.M[i]) 
-                    for i in range(len(self.p))
-                ]
+            self.length_exp = self.rng.binomial(
+                n=self.poisson_multi_exp, 
+                p=1-self.prob_missing, 
+                size=self.K
             )
+            self.final_poisson_exp = self.poisson_lam_per_driver * self.length_exp
+            N_exp = np.array([self.rng.poisson(i, 1)[0] for i in self.final_poisson_exp])
 
             # numerator
             self.prob_success_new, self.experiment_assignment = self.experiment_changes(experiment_impact)
